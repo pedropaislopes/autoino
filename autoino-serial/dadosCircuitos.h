@@ -1,3 +1,5 @@
+#include "circuitos.h"
+
 /********************************************
  * Este arquivo tem dados, setup e e parte do loop para circuitos
  */
@@ -57,7 +59,7 @@ void setupCircuitos()
 
   // Setando pinos
   for (int i = 0; i < nCircuitos; i++)
-    setaPino(&circuitos[i]);
+    setaPinoCircuito(&circuitos[i]);
 
   delay(1000);
 

@@ -68,7 +68,7 @@ void imprimeDadosCircuito(Circuito *circ)
 }
 
 // Seta os pinos dos circuitos
-void setaPino(Circuito *circ)
+void setaPinoCircuito(Circuito *circ)
 {
   pinMode((*circ).pinoSwitch, OUTPUT);
   digitalWrite((*circ).pinoSwitch, HIGH);

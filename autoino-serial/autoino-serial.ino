@@ -1,4 +1,3 @@
-#include "circuitos.h"
 #include "serialinput.h"
 #include "dadosCircuitos.h"
 
