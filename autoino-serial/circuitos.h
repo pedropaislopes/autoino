@@ -1,20 +1,10 @@
 /****************************************************
-
-  Neste arquivo tem
-  - struct circuito
-  - macro auxiliar
-
-  Funções:
-
-  - setaPino: define pinMode em "pinoSwitch" e "pinoSensor" e seta HIGH em "pinoSwitch"
-  - imprimeDadosCircuito: imprime na serial os dados do circuito existentes na struct
-  - statusCircuito: atualiza no circuito desejado o membro "ligado"
-  - switchCircuito: troca de sinal no "pinoSwitch"
-  - ligaCircuito: liga o circuito de acordo com "ligado" e "pinoSwitch"
-  - desligaCircuito: desliga o circuito de acordo com "ligado" e "pinoSwitch"
-
+Este fonte implementa funções e struct para trabalhar com circuitos
 */
 
+//#define DEBUGCIRCUITO 1
+//#define DEBUGCIRCUITOSTATUS 1
+//#define DEBUGSERIALINPUT 1
 #define ligDes(X) X == 1 ? " ligado" : " desligado"
 
 typedef struct circuito
@@ -40,7 +30,7 @@ void statusCircuito(Circuito *circ)
   else
   {
     valAntes = analogRead((*circ).pinoSensor);
-    delay(200);
+    delay(50);
     val = analogRead((*circ).pinoSensor);
   }
   if(valAntes > (*circ).sensorDesl && val > (*circ).sensorDesl)
