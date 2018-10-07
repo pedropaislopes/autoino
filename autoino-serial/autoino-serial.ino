@@ -4,7 +4,7 @@
 #include "circuitos.h"
 #include "serialinput.h"
 
-const int nCircuitos = 3;
+const int nCircuitos = 4;
 
 int statusAntes[nCircuitos];
 
@@ -14,17 +14,25 @@ Circuito circuitos[nCircuitos];
 void defineCircuitos(void)
 {
   circuitos[0].pinoSwitch = 3;
-  circuitos[0].pinoSensor = A7;
-  circuitos[0].limiarSensor = 500;
+  circuitos[0].pinoSensor = -1;
+  circuitos[0].sensorDesl = 10;
+  circuitos[0].sensorLig = 1000;
   circuitos[0].nome = "LED_vermelho";
   circuitos[1].pinoSwitch = 4;
-  circuitos[1].pinoSensor = A6;
-  circuitos[1].limiarSensor = 500;
+  circuitos[1].pinoSensor = -1;
+  circuitos[1].sensorDesl = 10;
+  circuitos[1].sensorLig = 1000;
   circuitos[1].nome = "LED_verde";
   circuitos[2].pinoSwitch = 5;
-  circuitos[2].pinoSensor = A5;
-  circuitos[2].limiarSensor = 500;
+  circuitos[2].pinoSensor = -1;
+  circuitos[2].sensorDesl = 10;
+  circuitos[2].sensorLig = 1000;
   circuitos[2].nome = "LED_amarelo";
+  circuitos[3].pinoSwitch = 8;
+  circuitos[3].pinoSensor = A4;
+  circuitos[3].sensorDesl = 60;
+  circuitos[3].sensorLig = 120;
+  circuitos[3].nome = "lamp_teste";
 }
 
 void setup() {
