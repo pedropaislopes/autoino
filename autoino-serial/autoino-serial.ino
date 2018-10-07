@@ -1,5 +1,6 @@
 #include "serialinput.h"
 #include "dadosCircuitos.h"
+#include "dadosCircdimmers.h"
 
 void setup() {
 
@@ -8,8 +9,11 @@ void setup() {
   // Setup dos circuitos
   setupCircuitos();
 
-  Serial.println("Pronto");
+  // Setup dos dimmers
+  setupCircdimmers();
 
+  Serial.println("Pronto");
+  
 }
 
 void loop() {
@@ -25,11 +29,16 @@ void loop() {
 
     // Ações dos circuitos
     acaoCircuito();
+
+    // Ações dos dimmers
+    acaoCircdimmer();
     
     newData = false;
   }
 
   // Imprime status dos circuitos
   imprimeStatusCircuitos();
+
+  imprimeStatusCircdimmers();
 
 }

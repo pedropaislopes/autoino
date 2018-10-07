@@ -4,13 +4,14 @@
  * Este arquivo tem dados, setup e e parte do loop para circuitos
  */
 
-const int nCircuitos = 1;
-int statusAntes[nCircuitos];
+const int nCircuitos = 0;
+int statusAntesCircuitos[nCircuitos];
 Circuito circuitos[nCircuitos];
 
 // Define dados dos circuitos
 void defineCircuitos(void)
 {
+  /*
   circuitos[0].pinoSwitch = 3;
   circuitos[0].pinoSensor = -1;
   circuitos[0].sensorDesl = 10;
@@ -51,6 +52,7 @@ void defineCircuitos(void)
   circuitos[7].sensorDesl = 10;
   circuitos[7].sensorLig = 1000;
   circuitos[7].nome = "LED_verde";
+  */
 }
 
 void setupCircuitos()
@@ -67,9 +69,15 @@ void setupCircuitos()
   for (int i = 0; i < nCircuitos; i++)
     desligaCircuito(&circuitos[i]);
 
-  // Preenchendo statusAntes
+  // Preenchendo statusAntesCircuitos
   for (int i = 0; i < nCircuitos; i++)
-    statusAntes[i] = circuitos[i].ligado;
+    statusAntesCircuitos[i] = circuitos[i].ligado;
+
+  // Imprime dados dos circuitos
+  Serial.println("------------------ DADOS DOS CIRCUITOS ------------------");
+  for (int i = 0; i < nCircuitos; i++)
+    imprimeDadosCircuito(&circuitos[i], i);
+
 }
 
 void acaoCircuito()
@@ -82,10 +90,13 @@ void acaoCircuito()
     }
 
   if (strcmp(messageFromPC, "t") == 0)
+  {
+    Serial.println("------------------ DADOS DOS CIRCUITOS ------------------");
     for (int i = 0; i < nCircuitos; i++)
     {
-      imprimeDadosCircuito(&circuitos[i]);
+      imprimeDadosCircuito(&circuitos[i], i);
     }
+  }
 }
 
 void imprimeStatusCircuitos()
@@ -95,7 +106,7 @@ void imprimeStatusCircuitos()
   for (int i = 0; i < nCircuitos; i++)
   {
     statusCircuito(&circuitos[i]);
-    if (statusAntes[i] != circuitos[i].ligado)
+    if (statusAntesCircuitos[i] != circuitos[i].ligado)
       imprime = 1;
   }
   if (imprime)
@@ -107,6 +118,6 @@ void imprimeStatusCircuitos()
     }
     Serial.println();
     for (int i = 0; i < nCircuitos; i++)
-      statusAntes[i] = circuitos[i].ligado;
+      statusAntesCircuitos[i] = circuitos[i].ligado;
   }
 }

@@ -46,9 +46,11 @@ void statusCircuito(Circuito *circ)
 }
 
 // Imprime dados do circuito
-void imprimeDadosCircuito(Circuito *circ)
+void imprimeDadosCircuito(Circuito *circ, int ic)
 {
-  Serial.print("pinoSwitch ");
+  Serial.print("circuito ");
+  Serial.print(ic);
+  Serial.print(" pinoSwitch ");
   Serial.print((*circ).pinoSwitch);
   Serial.print(" pinoSensor ");
   Serial.print((*circ).pinoSensor);
