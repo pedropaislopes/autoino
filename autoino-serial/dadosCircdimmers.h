@@ -35,23 +35,21 @@ void setupCircdimmers()
   for (int i = 0; i < nCircdimmers; i++)
     dimmers[i].begin();
 
-  // Setando pinos
+  // Setando pinos atualizando status
   for (int i = 0; i < nCircdimmers; i++)
     setaPinoCircdimmer(&circdimmers[i], i);
-
-  delay(1000);
 
   // Desligando os Circdimmers
   for (int i = 0; i < nCircdimmers; i++)
   {
     desligaCircdimmer(&circdimmers[i]);
-    dimmers[i].set(circdimmers[i].brilho, 0);
+    dimmers[i].off();
   }
 
-  // Preenchendo status e interrp
+  // Preenchendo estado anterior de status e interrp
   for (int i = 0; i < nCircdimmers; i++)
   {
-    statusAntesCircdimmers[i] = circdimmers[i].brilho;
+    statusAntesCircdimmers[i] = -1;
     interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
   }
 
@@ -145,7 +143,7 @@ void interrpCircdimmers()
     if (interrpAntesCircdimmers[i] != circdimmers[i].valInterrp)
     {
 
-      if (circdimmers[i].ligado == 0)
+      if (circdimmers[i].brilho == 0)
       {
         ligaCircdimmer(&circdimmers[integerFromPC]);
         dimmers[integerFromPC].set(99, 1);

@@ -59,11 +59,9 @@ void setupCircuitos()
 {
   defineCircuitos();
 
-  // Setando pinos
+  // Setando pinos e atualizando status
   for (int i = 0; i < nCircuitos; i++)
     setaPinoCircuito(&circuitos[i]);
-
-  delay(1000);
 
   // Desligando os circuitos
   for (int i = 0; i < nCircuitos; i++)
@@ -71,7 +69,7 @@ void setupCircuitos()
 
   // Preenchendo statusAntesCircuitos
   for (int i = 0; i < nCircuitos; i++)
-    statusAntesCircuitos[i] = circuitos[i].ligado;
+    statusAntesCircuitos[i] = 2;
 
   // Imprime dados dos circuitos
   Serial.println("------------------ DADOS DOS CIRCUITOS ------------------");

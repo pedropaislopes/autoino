@@ -53,6 +53,7 @@ void setaPinoCircdimmer(Circdimmer *circdm, Dimmer *dimmer)
   pinMode((*circdm).pinoSwitch, OUTPUT);
   digitalWrite((*circdm).pinoSwitch, HIGH);
   pinMode((*circdm).pinoInterrp, INPUT);
+  delay(50);
   statusCircdimmer(circdm);
 #ifdef DEBUGCIRCUITO
   imprimeDadosCircdimmer(circdm, dimmer);

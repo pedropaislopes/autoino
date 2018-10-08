@@ -75,6 +75,7 @@ void setaPinoCircuito(Circuito *circ)
   pinMode((*circ).pinoSwitch, OUTPUT);
   digitalWrite((*circ).pinoSwitch, HIGH);
   pinMode((*circ).pinoSensor, INPUT);
+  delay(50);
   statusCircuito(circ);
 #ifdef DEBUGCIRCUITO
   imprimeDadosCircuito(circ);
