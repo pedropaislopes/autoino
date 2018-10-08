@@ -25,6 +25,20 @@ void loop() {
     strcpy(tempChars, receivedChars);
     // this temporary copy is necessary to protect the original data
     //   because strtok() used in parseData() replaces the commas with \0
+
+    // Como é formado um dado recebido na serial
+    // <X,Y,Z>
+    // - X: comando. Pode ser:
+    //   - c?: circuito
+    //   - d?: dimmer
+    //   Onde ? pode ser:
+    //      - s: troca estado do switch
+    //      - l: liga
+    //      - d: desliga
+    //      - t: status de todos os circuitos ou dimmers
+    // - Y: número do circuito ou dimmer
+    // - Z: valor do brilho (só vale para dimmer, é ignorado para circuito)
+    //
     parseData();
 
     // Ações dos circuitos
