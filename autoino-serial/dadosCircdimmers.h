@@ -77,13 +77,13 @@ void acaoCircdimmer()
         dimmers[integerFromPC].set(brilho, 1);
       }
 
-      if (floatFromPC == 0 && circdimmers[integerFromPC].brilho > 0)
+      if (brilho == 0 && circdimmers[integerFromPC].brilho > 0)
       {
         dimmers[integerFromPC].off();
         desligaCircdimmer(&circdimmers[integerFromPC]);
       }
 
-      if (floatFromPC > 0 && circdimmers[integerFromPC].brilho > 0)
+      if (brilho > 0 && circdimmers[integerFromPC].brilho > 0)
         dimmers[integerFromPC].set(brilho);
 
       circdimmers[integerFromPC].brilho = (int)floatFromPC;
@@ -128,7 +128,10 @@ void imprimeStatusCircdimmers()
     Serial.print(" ");
 
     for (int i = 0; i < nCircdimmers; i++)
+    {
       statusAntesCircdimmers[i] = circdimmers[i].ligado;
+      interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
+    }
 
   }
 }
