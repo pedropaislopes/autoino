@@ -1,5 +1,5 @@
 /****************************************************
-Este fonte implementa funções e struct para trabalhar com circuitos
+  Este fonte implementa funções e struct para trabalhar com circuitos
 */
 
 //#define DEBUGCIRCUITO 1
@@ -33,9 +33,9 @@ void statusCircuito(Circuito *circ)
     delay(50);
     val = analogRead((*circ).pinoSensor);
   }
-  if(valAntes > (*circ).sensorDesl && val > (*circ).sensorDesl)
+  if (valAntes > (*circ).sensorDesl && val > (*circ).sensorDesl)
     (*circ).ligado = 1;
-  if(valAntes < (*circ).sensorLig  && val < (*circ).sensorLig )
+  if (valAntes < (*circ).sensorLig  && val < (*circ).sensorLig )
     (*circ).ligado = 0;
 #ifdef DEBUGCIRCUITOSTATUS
   Serial.print("circuito ");
