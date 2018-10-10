@@ -5,7 +5,6 @@
 */
 
 const int nCircuitos = 0;
-int statusAntesCircuitos[nCircuitos];
 Circuito circuitos[nCircuitos];
 
 // Define dados dos circuitos
@@ -59,22 +58,17 @@ void setupCircuitos()
 {
   defineCircuitos();
 
+  Serial.println("------------------ DADOS DOS CIRCUITOS ------------------");
+
   // Setando pinos e atualizando status
   for (int i = 0; i < nCircuitos; i++)
+  {
     setaPinoCircuito(&circuitos[i]);
 
-  // Desligando os circuitos
-  for (int i = 0; i < nCircuitos; i++)
     desligaCircuito(&circuitos[i]);
 
-  // Preenchendo statusAntesCircuitos
-  for (int i = 0; i < nCircuitos; i++)
-    statusAntesCircuitos[i] = 2;
-
-  // Imprime dados dos circuitos
-  Serial.println("------------------ DADOS DOS CIRCUITOS ------------------");
-  for (int i = 0; i < nCircuitos; i++)
     imprimeDadosCircuito(&circuitos[i], i);
+  }
 
 }
 
@@ -102,38 +96,6 @@ void acaoCircuito()
         imprimeDadosCircuito(&circuitos[i], i);
       }
     }
-
-  }
-}
-
-void imprimeStatusCircuitos()
-{
-  // Controle de mudança do status dos circuitos
-  for (int i = 0; i < nCircuitos; i++)
-  {
-    statusCircuito(&circuitos[i]);
-    if (statusAntesCircuitos[i] != circuitos[i].ligado)
-      imprime = 1;
-  }
-
-  if (imprime)
-  {
-
-    Serial.print("C");
-    for (int i = 0; i < nCircuitos; i++)
-    {
-      Serial.print(i);
-
-      if (i < nCircuitos)
-        Serial.print(circuitos[i].ligado);
-      else
-        Serial.print("0");
-
-    }
-    Serial.print(" ");
-
-    for (int i = 0; i < nCircuitos; i++)
-      statusAntesCircuitos[i] = circuitos[i].ligado;
 
   }
 }

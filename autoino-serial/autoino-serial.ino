@@ -1,10 +1,7 @@
-// Variável global de impressão de mudança de status
-bool imprime;
-
 #include "serialinput.h"
 #include "dadosCircuitos.h"
 #include "dadosCircdimmers.h"
-
+#include "imprime.h"
 
 void setup() {
 
@@ -16,13 +13,16 @@ void setup() {
   // Setup dos dimmers
   setupCircdimmers();
 
+  // Setup da impressão de status
+  setupImprime();
+
   Serial.println("Pronto");
 
 }
 
 void loop() {
 
-  // Realiza ação de acordo com interruptor dos circdimmers
+  // Atualiza brilho do dimmer de acordo com interruptor dos circdimmers
   interrpCircdimmers();
  
   // Obtendo string da serial
@@ -56,13 +56,7 @@ void loop() {
     newData = false;
   }
 
-  // Imprime status dos circuitos
-  imprime = 0;
-  imprimeStatusCircuitos();
-
-  imprimeStatusCircdimmers();
-
-  if (imprime)
-    Serial.println();
+  // Imprime status
+  acaoImprime();
 
 }

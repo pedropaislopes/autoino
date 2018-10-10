@@ -10,13 +10,8 @@ Dimmer dimmers[] = {
 };
 
 const int nCircdimmers = 1;
-int statusAntesCircdimmers[nCircdimmers];
 int interrpAntesCircdimmers[nCircdimmers];
 Circdimmer circdimmers[nCircdimmers];
-
-//Dimmer dimmers[] = {
-//  (3, DIMMER_RAMP)
-//};
 
 // Define dados dos Circdimmers
 void defineCircdimmers(void)
@@ -31,32 +26,20 @@ void setupCircdimmers()
 {
   defineCircdimmers();
 
-  // Define dimmers PWM
-  for (int i = 0; i < nCircdimmers; i++)
-    dimmers[i].begin();
-
-  // Setando pinos atualizando status
-  for (int i = 0; i < nCircdimmers; i++)
-    setaPinoCircdimmer(&circdimmers[i], i);
-
-  // Desligando os Circdimmers
-  for (int i = 0; i < nCircdimmers; i++)
-  {
-    desligaCircdimmer(&circdimmers[i]);
-    dimmers[i].off();
-  }
-
-  // Preenchendo estado anterior de status e interrp
-  for (int i = 0; i < nCircdimmers; i++)
-  {
-    statusAntesCircdimmers[i] = -1;
-    interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
-  }
-
-  // Imprime dados dos dimmers
   Serial.println("------------------ DADOS DOS DIMMERS ------------------");
   for (int i = 0; i < nCircdimmers; i++)
+  {
+    dimmers[i].begin();
+
+    setaPinoCircdimmer(&circdimmers[i], i);
+
+    desligaCircdimmer(&circdimmers[i]);
+    dimmers[i].off();
+
+    interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
+
     imprimeDadosCircdimmer(&circdimmers[i], &dimmers[i], i);
+  }
 }
 
 void acaoCircdimmer()
@@ -99,42 +82,6 @@ void acaoCircdimmer()
   }
 }
 
-void imprimeStatusCircdimmers()
-{
-  // Controle de mudança do status dos Circdimmers
-  for (int i = 0; i < nCircdimmers; i++)
-  {
-    statusCircdimmer(&circdimmers[i]);
-    if (statusAntesCircdimmers[i] != circdimmers[i].brilho)
-      imprime = 1;
-  }
-
-  if (imprime)
-  {
-
-    Serial.print("D");
-    for (int i = 0; i < 8; i++)
-    {
-      Serial.print(i);
-
-      if (i < nCircdimmers)
-        Serial.print(circdimmers[i].brilho);
-      else
-        Serial.print("0");
-
-    }
-    Serial.print(" ");
-
-    for (int i = 0; i < nCircdimmers; i++)
-    {
-      statusAntesCircdimmers[i] = circdimmers[i].ligado;
-      interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
-    }
-
-  }
-}
-
-
 void interrpCircdimmers()
 {
 
@@ -156,6 +103,8 @@ void interrpCircdimmers()
         desligaCircdimmer(&circdimmers[integerFromPC]);
         circdimmers[i].brilho = 0;
       }
+
+      interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
     }
   }
 }
