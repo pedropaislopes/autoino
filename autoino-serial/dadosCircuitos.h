@@ -4,18 +4,18 @@
    Este arquivo tem dados, setup e e parte do loop para circuitos
 */
 
-const int nCircuitos = 0;
+const int nCircuitos = 1;
 Circuito circuitos[nCircuitos];
 
 // Define dados dos circuitos
 void defineCircuitos(void)
 {
-  /*
-    circuitos[0].pinoSwitch = 3;
-    circuitos[0].pinoSensor = -1;
+    circuitos[0].pinoSwitch = 4;
+    circuitos[0].pinoSensor = A1;
     circuitos[0].sensorDesl = 10;
-    circuitos[0].sensorLig = 1000;
+    circuitos[0].sensorLig = 100;
     circuitos[0].nome = "LED_vermelho";
+  /*
     circuitos[1].pinoSwitch = 4;
     circuitos[1].pinoSensor = -1;
     circuitos[1].sensorDesl = 10;
@@ -74,21 +74,22 @@ void setupCircuitos()
 
 void acaoCircuito()
 {
+
   // Realiza ação de acordo com mensagem recebida
   if (integerFromPC >= 0 && integerFromPC < nCircuitos)
   {
 
-    if (strcmp(messageFromPC, 'cl') == 0)
+    if (messageFromPC[0] == 'l')
     {
       ligaCircuito(&circuitos[integerFromPC]);
     }
 
-    if (strcmp(messageFromPC, 'cd') == 0)
+    if (messageFromPC[0] == 'd')
     {
       desligaCircuito(&circuitos[integerFromPC]);
     }
 
-    if (strcmp(messageFromPC, 't') == 0)
+    if (messageFromPC[0] == 's')
     {
       Serial.println("------------------ DADOS DOS CIRCUITOS ------------------");
       for (int i = 0; i < nCircuitos; i++)

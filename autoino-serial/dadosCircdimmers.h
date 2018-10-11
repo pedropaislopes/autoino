@@ -6,10 +6,10 @@
 */
 
 Dimmer dimmers[] = {
-  Dimmer(3, DIMMER_RAMP)
+//  Dimmer(3, DIMMER_RAMP)
 };
 
-const int nCircdimmers = 1;
+const int nCircdimmers = 0;
 int interrpAntesCircdimmers[nCircdimmers];
 Circdimmer circdimmers[nCircdimmers];
 
@@ -48,7 +48,7 @@ void acaoCircdimmer()
   if (integerFromPC >= 0 && integerFromPC < nCircdimmers)
   {
 
-    if (strcmp(messageFromPC, 'db') == 0)
+    if (messageFromPC[0] == 'b')
     {
       int brilho = (int)floatFromPC *  11;
 
@@ -60,7 +60,7 @@ void acaoCircdimmer()
 
       if (brilho == 0 && circdimmers[integerFromPC].brilho > 0)
       {
-        dimmers[integerFromPC].off();
+        dimmers[integerFromPC].set(brilho, 0);
         desligaCircdimmer(&circdimmers[integerFromPC]);
       }
 
@@ -70,7 +70,7 @@ void acaoCircdimmer()
       circdimmers[integerFromPC].brilho = (int)floatFromPC;
     }
 
-    if (strcmp(messageFromPC, 'dt') == 0)
+    if (messageFromPC[0] == 't')
     {
       Serial.println("------------------ DADOS DOS DIMMERS ------------------");
       for (int i = 0; i < nCircdimmers; i++)
@@ -99,7 +99,7 @@ void interrpCircdimmers()
 
       else
       {
-        dimmers[integerFromPC].off();
+        dimmers[integerFromPC].set(0, 0);
         desligaCircdimmer(&circdimmers[integerFromPC]);
         circdimmers[i].brilho = 0;
       }

@@ -17,7 +17,7 @@ typedef struct Circdimmer
 void statusCircdimmer(Circdimmer *circdm)
 {
   (*circdm).ligado = !digitalRead((*circdm).pinoSwitch);
-  (*circdm).valInterrp = (analogRead((*circdm).pinoInterrp) > 1);
+  (*circdm).valInterrp = (analogRead((*circdm).pinoInterrp) < 100); // > 100 sem PULLUP
 }
 
 // Imprime dados do circdimmer
@@ -52,7 +52,7 @@ void setaPinoCircdimmer(Circdimmer *circdm, Dimmer *dimmer)
 {
   pinMode((*circdm).pinoSwitch, OUTPUT);
   digitalWrite((*circdm).pinoSwitch, HIGH);
-  pinMode((*circdm).pinoInterrp, INPUT);
+  pinMode((*circdm).pinoInterrp, INPUT_PULLUP);
   delay(50);
   statusCircdimmer(circdm);
 #ifdef DEBUGCIRCUITO

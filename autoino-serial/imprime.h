@@ -26,18 +26,25 @@ void acaoImprime()
 
   int imprime = 0;
 
-  for (int i = 0; i < 8; i++)
+  for (int i = 0; i < nCircuitos; i++)
   {
-    if (circuito.get<int>(i) != circuitos[i].ligado || dimmer.get<int>(i) != circdimmers[i].brilho)
+    statusCircuito(&circuitos[i]);
+
+    if (circuito.get<int>(i) != circuitos[i].ligado)
     {
       imprime = 1;
-
-      // Atualiza json
       circuito.set(i, circuitos[i].ligado);
-      dimmer.set(i, circdimmers[i].brilho);
-
     }
+  }
+  for (int i = 0; i < nCircdimmers; i++)
+  {
+    statusCircdimmer(&circdimmers[i]);
 
+    if (dimmer.get<int>(i) != circdimmers[i].brilho)
+    {
+      imprime = 1;
+      dimmer.set(i, circdimmers[i].brilho);
+    }
   }
 
   if (imprime == 1)
