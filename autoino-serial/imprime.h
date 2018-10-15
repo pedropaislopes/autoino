@@ -3,10 +3,11 @@
 int undef = -1;
 
 // Criando json
-const size_t bufferSize = 2 * JSON_ARRAY_SIZE(8) + JSON_OBJECT_SIZE(2);
+const size_t bufferSize = 3 * JSON_ARRAY_SIZE(8) + JSON_OBJECT_SIZE(3);
 DynamicJsonBuffer jsonBuffer(bufferSize);
 JsonObject& root = jsonBuffer.createObject();
 JsonArray& circuito = root.createNestedArray("circuito");
+JsonArray& circdimmer = root.createNestedArray("circdimmer");
 JsonArray& dimmer = root.createNestedArray("dimmer");
 
 void setupImprime()
@@ -16,6 +17,7 @@ void setupImprime()
   for (int i = 0; i < 8; i++)
   {
     circuito.add(undef);
+    circdimmer.add(undef);
     dimmer.add(undef);
   }
 
@@ -40,10 +42,16 @@ void acaoImprime()
   {
     statusCircdimmer(&circdimmers[i]);
 
-    if (dimmer.get<int>(i) != circdimmers[i].brilho)
+    if (circdimmer.get<int>(i) != circdimmers[i].ligado)
     {
       imprime = 1;
-      dimmer.set(i, circdimmers[i].brilho);
+      circdimmer.set(i, circdimmers[i].ligado);
+    }
+
+    if (dimmer.get<int>(i) != dimmers[i].getValue())
+    {
+      imprime = 1;
+      dimmer.set(i, dimmers[i].getValue());
     }
   }
 

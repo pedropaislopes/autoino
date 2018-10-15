@@ -10,7 +10,6 @@ typedef struct Circdimmer
   int pinoInterrp; // Pino analógico do interruptor de parede
   int ligado;      // Se switch de energia AC está ligado ou não
   int valInterrp;  // Valor do interruptor na parede
-  int brilho;      // Brilho do dimmer
   String nome;     // Nome do dimmer
 } Circdimmer;
 
@@ -33,8 +32,6 @@ void imprimeDadosCircdimmer(Circdimmer *circdm, Dimmer *dimmer, int ic)
   Serial.print((*circdm).ligado);
   Serial.print(" valInterrp ");
   Serial.print((*circdm).valInterrp);
-  Serial.print(" brilho ");
-  Serial.print((*circdm).brilho);
   Serial.print(" nome ");
   Serial.print((*circdm).nome);
   Serial.print(" pinoSwitchVal ");

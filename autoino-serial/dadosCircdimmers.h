@@ -6,7 +6,7 @@
 */
 
 Dimmer dimmers[] = {
-//  Dimmer(3, DIMMER_RAMP)
+  //  Dimmer(3, DIMMER_RAMP)
 };
 
 const int nCircdimmers = 0;
@@ -18,7 +18,6 @@ void defineCircdimmers(void)
 {
   circdimmers[0].pinoSwitch = 4;
   circdimmers[0].pinoInterrp = A0;
-  circdimmers[0].brilho = 0;
   circdimmers[0].nome = "dimmer_teste";
 }
 
@@ -48,26 +47,20 @@ void acaoCircdimmer()
   if (integerFromPC >= 0 && integerFromPC < nCircdimmers)
   {
 
+    if (messageFromPC[0] == 'l')
+    {
+      ligaCircdimmer(&circdimmers[integerFromPC]);
+    }
+
+    if (messageFromPC[0] == 'd')
+    {
+      desligaCircdimmer(&circdimmers[integerFromPC]);
+    }
+
     if (messageFromPC[0] == 'b')
     {
-      int brilho = (int)floatFromPC *  11;
-
-      if (brilho > 0 && circdimmers[integerFromPC].brilho == 0)
-      {
-        ligaCircdimmer(&circdimmers[integerFromPC]);
-        dimmers[integerFromPC].set(brilho, 1);
-      }
-
-      if (brilho == 0 && circdimmers[integerFromPC].brilho > 0)
-      {
-        dimmers[integerFromPC].set(brilho, 0);
-        desligaCircdimmer(&circdimmers[integerFromPC]);
-      }
-
-      if (brilho > 0 && circdimmers[integerFromPC].brilho > 0)
-        dimmers[integerFromPC].set(brilho);
-
-      circdimmers[integerFromPC].brilho = (int)floatFromPC;
+      ligaCircdimmer(&circdimmers[integerFromPC]);
+      dimmers[integerFromPC].set((int)floatFromPC);
     }
 
     if (messageFromPC[0] == 't')
@@ -90,18 +83,15 @@ void interrpCircdimmers()
     if (interrpAntesCircdimmers[i] != circdimmers[i].valInterrp)
     {
 
-      if (circdimmers[i].brilho == 0)
+      if (circdimmers[i].ligado == 0)
       {
-        ligaCircdimmer(&circdimmers[integerFromPC]);
-        dimmers[integerFromPC].set(99, 1);
-        circdimmers[i].brilho = 9;
+        ligaCircdimmer(&circdimmers[i]);
+        dimmers[i].set(100);
       }
 
       else
       {
-        dimmers[integerFromPC].set(0, 0);
-        desligaCircdimmer(&circdimmers[integerFromPC]);
-        circdimmers[i].brilho = 0;
+        desligaCircdimmer(&circdimmers[i]);
       }
 
       interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
