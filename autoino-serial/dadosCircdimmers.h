@@ -6,10 +6,11 @@
 */
 
 Dimmer dimmers[] = {
-  //  Dimmer(3, DIMMER_RAMP)
+    Dimmer(16, DIMMER_RAMP),
+    Dimmer(3, DIMMER_RAMP)
 };
 
-const int nCircdimmers = 0;
+const int nCircdimmers = 2;
 int interrpAntesCircdimmers[nCircdimmers];
 Circdimmer circdimmers[nCircdimmers];
 
@@ -17,8 +18,11 @@ Circdimmer circdimmers[nCircdimmers];
 void defineCircdimmers(void)
 {
   circdimmers[0].pinoSwitch = 4;
-  circdimmers[0].pinoInterrp = A0;
-  circdimmers[0].nome = "dimmer_teste";
+  circdimmers[0].pinoInterrp = 13;
+  circdimmers[0].nome = "CD.SCP";
+  circdimmers[1].pinoSwitch = 10;
+  circdimmers[1].pinoInterrp = 12;
+  circdimmers[1].nome = "CD.VRD";
 }
 
 void setupCircdimmers()
@@ -29,11 +33,11 @@ void setupCircdimmers()
   for (int i = 0; i < nCircdimmers; i++)
   {
     dimmers[i].begin();
+    dimmers[i].on();
 
     setaPinoCircdimmer(&circdimmers[i], i);
 
     desligaCircdimmer(&circdimmers[i]);
-    dimmers[i].off();
 
     interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;
 

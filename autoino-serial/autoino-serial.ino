@@ -1,7 +1,14 @@
+#include <SimpleDHT.h>
+
 #include "serialinput.h"
 #include "dadosCircuitos.h"
 #include "dadosCircdimmers.h"
 #include "imprime.h"
+
+int pinDHT22 = 15;
+SimpleDHT22 dht22(pinDHT22);
+long prevMillisDHT = 0;
+const long intervalDHT = 10000;
 
 void setup() {
 
@@ -22,9 +29,20 @@ void setup() {
 
 void loop() {
 
+  unsigned long currMillisDHT = millis();
+  float humidity;
+  float temperature;
+
+  if (currMillisDHT - prevMillisDHT > intervalDHT)
+  {
+    prevMillisDHT = currMillisDHT;
+    dht22.read2(&temperature, &humidity, NULL);
+
+  }
+
   // Atualiza brilho do dimmer de acordo com interruptor dos circdimmers
   interrpCircdimmers();
- 
+
   // Obtendo string da serial
   recvWithStartEndMarkers();
 
@@ -57,6 +75,6 @@ void loop() {
   }
 
   // Imprime status
-  acaoImprime();
+  acaoImprime(humidity, temperature);
 
 }
