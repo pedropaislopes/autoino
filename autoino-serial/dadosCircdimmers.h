@@ -6,7 +6,7 @@
 */
 
 Dimmer dimmers[] = {
-    Dimmer(16, DIMMER_RAMP),
+    Dimmer(13, DIMMER_RAMP),
     Dimmer(3, DIMMER_RAMP)
 };
 
@@ -17,10 +17,10 @@ Circdimmer circdimmers[nCircdimmers];
 // Define dados dos Circdimmers
 void defineCircdimmers(void)
 {
-  circdimmers[0].pinoSwitch = 4;
-  circdimmers[0].pinoInterrp = 13;
+  circdimmers[0].pinoSwitch = 10;
+  circdimmers[0].pinoInterrp = 16;
   circdimmers[0].nome = "CD.SCP";
-  circdimmers[1].pinoSwitch = 10;
+  circdimmers[1].pinoSwitch = 4;
   circdimmers[1].pinoInterrp = 12;
   circdimmers[1].nome = "CD.VRD";
 }
@@ -51,14 +51,16 @@ void acaoCircdimmer()
   if (integerFromPC >= 0 && integerFromPC < nCircdimmers)
   {
 
-    if (messageFromPC[0] == 'l')
+    if (messageFromPC[0] == 'm')
     {
       ligaCircdimmer(&circdimmers[integerFromPC]);
+      dimmers[integerFromPC].set((int)floatFromPC);
     }
 
-    if (messageFromPC[0] == 'd')
+    if (messageFromPC[0] == 'e')
     {
       desligaCircdimmer(&circdimmers[integerFromPC]);
+      dimmers[integerFromPC].set((int)floatFromPC);
     }
 
     if (messageFromPC[0] == 'b')
@@ -96,6 +98,7 @@ void interrpCircdimmers()
       else
       {
         desligaCircdimmer(&circdimmers[i]);
+        dimmers[i].set(0);
       }
 
       interrpAntesCircdimmers[i] = circdimmers[i].valInterrp;

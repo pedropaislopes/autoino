@@ -5,10 +5,10 @@
 #include "dadosCircdimmers.h"
 #include "imprime.h"
 
-int pinDHT22 = 15;
+int pinDHT22 = 14;
 SimpleDHT22 dht22(pinDHT22);
 long prevMillisDHT = 0;
-const long intervalDHT = 10000;
+const long intervalDHT = 3000;
 
 void setup() {
 
