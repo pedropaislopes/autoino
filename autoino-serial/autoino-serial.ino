@@ -40,8 +40,8 @@ void loop() {
 
   }
 
-  // Atualiza brilho do dimmer de acordo com interruptor dos circdimmers
-  interrpCircdimmers();
+  // Atualiza brilho do dimmer de acordo com enconder dos circdimmers
+  encoderCircdimmers();
 
   // Obtendo string da serial
   recvWithStartEndMarkers();

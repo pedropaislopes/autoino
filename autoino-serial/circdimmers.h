@@ -9,14 +9,17 @@ typedef struct Circdimmer
   int pinoSwitch;  // Pino digital de que aciona o switch de energia AC
   int pinoInterrp; // Pino analógico do interruptor de parede
   int ligado;      // Se switch de energia AC está ligado ou não
-  int valInterrp;  // Valor do interruptor na parede
+  int outputA;
+  int outputB;
+  int aState;
+  int aLastState;
+  int counter;
   String nome;     // Nome do dimmer
 } Circdimmer;
 
 void statusCircdimmer(Circdimmer *circdm)
 {
   (*circdm).ligado = !digitalRead((*circdm).pinoSwitch);
-  (*circdm).valInterrp = digitalRead((*circdm).pinoInterrp);
 }
 
 // Imprime dados do circdimmer
@@ -26,12 +29,8 @@ void imprimeDadosCircdimmer(Circdimmer *circdm, Dimmer *dimmer, int ic)
   Serial.print(ic);
   Serial.print(" pinoSwitch ");
   Serial.print((*circdm).pinoSwitch);
-  Serial.print(" pinoInterrp ");
-  Serial.print((*circdm).pinoInterrp);
   Serial.print(" ligado ");
   Serial.print((*circdm).ligado);
-  Serial.print(" valInterrp ");
-  Serial.print((*circdm).valInterrp);
   Serial.print(" nome ");
   Serial.print((*circdm).nome);
   Serial.print(" pinoSwitchVal ");
@@ -49,7 +48,8 @@ void setaPinoCircdimmer(Circdimmer *circdm, int dimmer)
 {
   pinMode((*circdm).pinoSwitch, OUTPUT);
   digitalWrite((*circdm).pinoSwitch, HIGH);
-  pinMode((*circdm).pinoInterrp, INPUT_PULLUP);
+  pinMode((*circdm).outputA, HIGH);
+  pinMode((*circdm).outputB, HIGH);
   delay(50);
   statusCircdimmer(circdm);
 #ifdef DEBUGCIRCUITO
