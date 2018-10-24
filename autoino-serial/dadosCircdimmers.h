@@ -23,8 +23,8 @@ void defineCircdimmers(void)
   circdimmers[0].counter = 0;
   circdimmers[0].nome = "CD.SCP";
   circdimmers[1].pinoSwitch = 4;
-  circdimmers[1].outputA = 11;
-  circdimmers[1].outputB = 12;
+  circdimmers[1].outputA = 12;
+  circdimmers[1].outputB = 11;
   circdimmers[1].counter = 0;
   circdimmers[1].nome = "CD.VRD";
 }
@@ -99,20 +99,24 @@ void encoderCircdimmers()
       if (digitalRead(circdimmers[i].outputB) != circdimmers[i].aState) {
 
         ligaCircdimmer(&circdimmers[i]);
-        circdimmers[i].counter = circdimmers[i].counter + 3;
+        circdimmers[i].counter = circdimmers[i].counter + 10;
         if (circdimmers[i].counter > 100)
           circdimmers[i].counter = 100;
 
       } else {
 
-        circdimmers[i].counter = circdimmers[i].counter - 3;
+        circdimmers[i].counter = circdimmers[i].counter - 10;
         if (circdimmers[i].counter <= 0) {
           desligaCircdimmer(&circdimmers[i]);
           circdimmers[i].counter = 0;
         }
 
       }
+//     Serial.print(i);
+//     Serial.print("Position: ");
+//     Serial.println(circdimmers[i].counter);
     }
+    circdimmers[i].aLastState = circdimmers[i].aState; // Updates the previous state of the outputA with the current state
 
     dimmers[i].set(circdimmers[i].counter);
   }
