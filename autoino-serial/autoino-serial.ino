@@ -7,12 +7,14 @@
 
 int pinDHT22 = 14;
 SimpleDHT22 dht22(pinDHT22);
-long prevMillisDHT = 0;
-const long intervalDHT = 3000;
+const long intervalDHT = 300000;
+long prevMillisDHT = -intervalDHT;
 
 void setup() {
 
   Serial.begin(9600);
+
+  delay(3000);
 
   // Setup dos circuitos
   setupCircuitos();
