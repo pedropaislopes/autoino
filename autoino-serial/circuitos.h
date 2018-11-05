@@ -9,9 +9,9 @@
 
 typedef struct circuito
 {
-  int pinoSwitch;   // Pino digital de acionamento do relê
+  int pinoRele;   // Pino digital de acionamento do relê
   int pinoSensor;   // Pino analógico do sensor de tensão
-  // Se nagativo então "ligado" = digitalRead(pinoSwitch)
+  // Se nagativo então "ligado" = digitalRead(pinoRele)
   int sensorDesl;   // Valor máximo que o sensor apresenta quando circuito desligado
   int sensorLig;    // Valor mínimo que o sensor apresenta quando circuito ligado
   int ligado;       // Status do circuito a(0 = desligado / 1 = ligado)
@@ -24,7 +24,7 @@ void statusCircuito(Circuito *circ)
   int val, valAntes;
   if ((*circ).pinoSensor < 0)
   {
-    val = digitalRead((*circ).pinoSwitch) * 1000;
+    val = digitalRead((*circ).pinoRele) * 1000;
     valAntes = val;
   }
   else
@@ -50,8 +50,8 @@ void imprimeDadosCircuito(Circuito *circ, int ic)
 {
   Serial.print("circuito ");
   Serial.print(ic);
-  Serial.print(" pinoSwitch ");
-  Serial.print((*circ).pinoSwitch);
+  Serial.print(" pinoRele ");
+  Serial.print((*circ).pinoRele);
   Serial.print(" pinoSensor ");
   Serial.print((*circ).pinoSensor);
   Serial.print(" sensorDesl ");
@@ -62,8 +62,8 @@ void imprimeDadosCircuito(Circuito *circ, int ic)
   Serial.print((*circ).ligado);
   Serial.print(" nome ");
   Serial.print((*circ).nome);
-  Serial.print(" pinoSwitchVal ");
-  Serial.print(digitalRead((*circ).pinoSwitch));
+  Serial.print(" pinoReleVal ");
+  Serial.print(digitalRead((*circ).pinoRele));
   Serial.print(" pinoSensorVal ");
   Serial.print(analogRead((*circ).pinoSensor));
   Serial.println();
@@ -72,8 +72,8 @@ void imprimeDadosCircuito(Circuito *circ, int ic)
 // Seta os pinos dos circuitos
 void setaPinoCircuito(Circuito *circ)
 {
-  pinMode((*circ).pinoSwitch, OUTPUT);
-  digitalWrite((*circ).pinoSwitch, HIGH);
+  pinMode((*circ).pinoRele, OUTPUT);
+  digitalWrite((*circ).pinoRele, HIGH);
   pinMode((*circ).pinoSensor, INPUT);
   delay(50);
   statusCircuito(circ);
@@ -82,10 +82,10 @@ void setaPinoCircuito(Circuito *circ)
 #endif
 }
 
-// Troca de LOW para HIGH no pino do switch
+// Troca de LOW para HIGH no pino do Rele
 void switchCircuito(Circuito *circ)
 {
-  digitalWrite((*circ).pinoSwitch, !digitalRead((*circ).pinoSwitch));
+  digitalWrite((*circ).pinoRele, !digitalRead((*circ).pinoRele));
 }
 
 // Liga circuito

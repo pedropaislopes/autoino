@@ -1,3 +1,4 @@
+#include <Encoder.h>
 #include "Dimmer.h"
 #include "circdimmers.h"
 
@@ -6,8 +7,13 @@
 */
 
 Dimmer dimmers[] = {
-  Dimmer(13, DIMMER_RAMP),
-  Dimmer(3, DIMMER_RAMP)
+  Dimmer(7, DIMMER_RAMP), // SCP
+  Dimmer(53, DIMMER_RAMP) // VRD
+};
+
+Encoder encoders[] = {
+  Encoder(19, 42), // SCP
+  Encoder(18, 43)  // VRD
 };
 
 const int nCircdimmers = 2;
@@ -17,15 +23,15 @@ Circdimmer circdimmers[nCircdimmers];
 // Define dados dos Circdimmers
 void defineCircdimmers(void)
 {
-  circdimmers[0].pinoSwitch = 10;
-  circdimmers[0].outputA = 15;
-  circdimmers[0].outputB = 16;
+  circdimmers[0].pinoRele = 52;
+  circdimmers[0].encSW = 40;
   circdimmers[0].counter = 0;
+  circdimmers[0].oldPos = 0;
   circdimmers[0].nome = "CD.SCP";
-  circdimmers[1].pinoSwitch = 4;
-  circdimmers[1].outputA = 11;
-  circdimmers[1].outputB = 12;
+  circdimmers[1].pinoRele = 51;
+  circdimmers[0].encSW = 41;
   circdimmers[1].counter = 0;
+  circdimmers[1].oldPos = 0;
   circdimmers[1].nome = "CD.VRD";
 }
 
@@ -45,7 +51,6 @@ void setupCircdimmers()
 
     imprimeDadosCircdimmer(&circdimmers[i], &dimmers[i], i);
 
-    circdimmers[i].aLastState = digitalRead(circdimmers[i].outputA);
   }
 }
 
@@ -87,33 +92,33 @@ void acaoCircdimmer()
 
 void encoderCircdimmers()
 {
-
+  long pos;
   for (int i = 0; i < nCircdimmers; i++)
   {
 
-    circdimmers[i].aState = digitalRead(circdimmers[i].outputA); // Reads the "current" state of the outputA
-    // If the previous and the current state of the outputA are different, that means a Pulse has occured
-    if (circdimmers[i].aState != circdimmers[i].aLastState) {
-      // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise
+    pos = encoders[i].read();
 
-      if (digitalRead(circdimmers[i].outputB) != circdimmers[i].aState) {
+    if (pos != circdimmers[i].oldPos) {
+
+      circdimmers[i].counter = circdimmers[i].counter + (pos - circdimmers[i].oldPos);
+
+      if (circdimmers[i].counter > 100)
+        circdimmers[i].counter = 100;
+      if (circdimmers[i].counter < 5)
+        circdimmers[i].counter = 0;
+
+      if (circdimmers[i].counter > 0) {
 
         ligaCircdimmer(&circdimmers[i]);
-        circdimmers[i].counter = circdimmers[i].counter + 3;
-        if (circdimmers[i].counter > 100)
-          circdimmers[i].counter = 100;
 
       } else {
 
-        circdimmers[i].counter = circdimmers[i].counter - 3;
-        if (circdimmers[i].counter <= 0) {
-          desligaCircdimmer(&circdimmers[i]);
-          circdimmers[i].counter = 0;
-        }
-
+        desligaCircdimmer(&circdimmers[i]);
       }
-    }
 
-    dimmers[i].set(circdimmers[i].counter);
+      dimmers[i].set(circdimmers[i].counter);
+
+      circdimmers[i].oldPos = pos;
+    }
   }
 }

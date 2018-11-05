@@ -6,20 +6,17 @@
 
 typedef struct Circdimmer
 {
-  int pinoSwitch;  // Pino digital de que aciona o switch de energia AC
-  int pinoInterrp; // Pino analógico do interruptor de parede
+  int pinoRele;  // Pino digital de que aciona o switch de energia AC
   int ligado;      // Se switch de energia AC está ligado ou não
-  int outputA;
-  int outputB;
-  int aState;
-  int aLastState;
+  int encSW;
   int counter;
+  int oldPos;
   String nome;     // Nome do dimmer
 } Circdimmer;
 
 void statusCircdimmer(Circdimmer *circdm)
 {
-  (*circdm).ligado = !digitalRead((*circdm).pinoSwitch);
+  (*circdm).ligado = !digitalRead((*circdm).pinoRele);
 }
 
 // Imprime dados do circdimmer
@@ -27,14 +24,14 @@ void imprimeDadosCircdimmer(Circdimmer *circdm, Dimmer *dimmer, int ic)
 {
   Serial.print("circdimmer ");
   Serial.print(ic);
-  Serial.print(" pinoSwitch ");
-  Serial.print((*circdm).pinoSwitch);
+  Serial.print(" pinoRele ");
+  Serial.print((*circdm).pinoRele);
   Serial.print(" ligado ");
   Serial.print((*circdm).ligado);
   Serial.print(" nome ");
   Serial.print((*circdm).nome);
   Serial.print(" pinoSwitchVal ");
-  Serial.print(digitalRead((*circdm).pinoSwitch));
+  Serial.print(digitalRead((*circdm).pinoRele));
   Serial.print(" Dimmer.getValue ");
   Serial.print((*dimmer).getValue());
   Serial.print(" Dimmer.getState ");
@@ -46,10 +43,9 @@ void imprimeDadosCircdimmer(Circdimmer *circdm, Dimmer *dimmer, int ic)
 // Seta os pinos dos circdimmer (somente relé)
 void setaPinoCircdimmer(Circdimmer *circdm, int dimmer)
 {
-  pinMode((*circdm).pinoSwitch, OUTPUT);
-  digitalWrite((*circdm).pinoSwitch, HIGH);
-  pinMode((*circdm).outputA, HIGH);
-  pinMode((*circdm).outputB, HIGH);
+  pinMode((*circdm).pinoRele, OUTPUT);
+  digitalWrite((*circdm).pinoRele, HIGH);
+  pinMode((*circdm).encSW, HIGH);
   delay(50);
   statusCircdimmer(circdm);
 #ifdef DEBUGCIRCUITO
@@ -60,7 +56,7 @@ void setaPinoCircdimmer(Circdimmer *circdm, int dimmer)
 // Troca de LOW para HIGH no pino do switch
 void switchCircdimmer(Circdimmer *circdm)
 {
-  digitalWrite((*circdm).pinoSwitch, !digitalRead((*circdm).pinoSwitch));
+  digitalWrite((*circdm).pinoRele, !digitalRead((*circdm).pinoRele));
 }
 
 // Liga circuito
